@@ -4,7 +4,7 @@ from random import randrange
 def display_board(board):
     print("+-------"*3,"+",sep="")
     for row in range(3):
-        print("|       "*3,"|",sep="")
+        print("|      n"*3,"|",sep="")
         for col in range (3):
             print("|       " + str(board[row][col])+"" ,  end="")
         print("|")
@@ -58,6 +58,40 @@ def victory_for(board,sgn):
         return who
     return None
 
-#def draw_move(board):
+def draw_move(board):
+    free=make_list_of_free_fields(board)  #make a list of free fields
+    cnt=len(free)
+    if cnt>0:
+        this=randrange(cnt)
+        row,col=free(this)
+        board[row][col]="x"
+
+board=[[3*j+i+1 for i in range(3)]for j in range(3)]
+board[1][1]='x'  #set first 'x' in the middle
+free=make_list_of_free_fields(board)
+human_turn=True #which turn is it now?
+while len(free):
+    display_board(board)
+    if human_turn:
+        enter_move(board)
+        victor=victory_for(board,'0')
+    else:
+        draw_move(board)
+        victor=victory_for(board,'x')
+    if victor != None:
+        break
+    human_turn=not human_turn
+    free=make_list_of_free_fields(board)
+
+display_board(board)
+if victor == 'you':
+    print("you won!")
+elif victor == 'me':
+    print('i won!')
+else:
+    print('tie')
+
+
+
 
 
